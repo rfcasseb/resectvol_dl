@@ -12,10 +12,10 @@ To run ResecVol DL, gather all your compressed nifti images (.nii.gz)  in a dire
 ResectVol DL first runs lacuna segmentation for all images, and then runs labeling.
 
 Example calls:
-./resectvol_dl.sh /media/study1/data/ /media/study1/output -s
+  ./resectvol_dl.sh /media/study1/data/ /media/study1/output -s
 
-./resectvol_dl.sh /media/study1/data/ /media/study1/output -sl
+  ./resectvol_dl.sh /media/study1/data/ /media/study1/output -sl
 
-./resectvol_dl.sh /media/study1/data/ /media/study1/output -slf
+  ./resectvol_dl.sh /media/study1/data/ /media/study1/output -slf
 
 Enjoy!
