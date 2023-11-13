@@ -4,7 +4,7 @@ roi_labeling() {
 	# Main script to perform labeling of lacuna regions
 	# -------------------------------------------------------------------------
 	# Usage examples:
-    # Slow good run - ~15 min
+        # Slow good run - ~15 min
 	# time bash rvdl_labeling.sh roi_labeling /path/to/Pos.nii.gz /path/to/Lacuna.nii.gz /path/to/rvdl_labeling.sh slow_good
 	# Quick poor run - ~6 min
 	# time bash rvdl_labeling.sh roi_labeling /path/to/Pos.nii.gz /path/to/Lacuna.nii.gz /path/to/rvdl_labeling.sh quick_dirty
@@ -15,7 +15,7 @@ roi_labeling() {
 	#    format
 	# 3) /path/to/rvdl_labeling.sh - full path to rvdl_labeling.sh (there 
 	#    must be a folder named "labeling_template" at the same level
-    #    of the rvdl_labeling.sh file, containing the DKT template)
+        #    of the rvdl_labeling.sh file, containing the DKT template)
 	# 4) running mode - options: "quick_dirty" or "slow_good"
 
 	# OUTPUTS:
@@ -73,7 +73,7 @@ roi_labeling() {
 	# ------------------------------------------------------------------
 	# 0. LOAD INPUTS
 	# ------------------------------------------------------------------
-    code_dir=$(dirname "$3")
+        code_dir=$(dirname "$3")
 	brn_path=$(dirname "$1")
 	brn_name=$(basename "$1")
 	brn_name_core=$(basename "$brn_name" .nii.gz)
@@ -101,10 +101,10 @@ roi_labeling() {
 	# ------------------------------------------------------------------	
 	# 1. BRAIN EXTRACTION
 	# ------------------------------------------------------------------
-    # 1.1. Apply lacuna mask to post file
+    	# 1.1. Apply lacuna mask to post file
 	# (SPM12 NewSegment ignores 0 voxels)
 	# ~ 5 s
-    fslmaths $lac_path/$lac_name_core -mul -1 -add 1 -mul $brn_path/$brn_name_core $brn_path/"$brn_name_core"_masked -odt short
+    	fslmaths $lac_path/$lac_name_core -mul -1 -add 1 -mul $brn_path/$brn_name_core $brn_path/"$brn_name_core"_masked -odt short
 	gunzip $brn_path/"$brn_name_core"_masked.nii.gz
 	
 	# 1.2. Run SPM12 NewSegment
