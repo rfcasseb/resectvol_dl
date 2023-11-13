@@ -238,26 +238,3 @@ for file in $nifti_files; do
         mv "$file" "${file%_0000.nii.gz}.nii.gz"
     fi
 done
-
-
-
-
-
-
-
-# # -------------------------------------------------------------------------
-# # MAIN
-# # -------------------------------------------------------------------------
-# # Loop through options
-# while getopts ":hn:" option; do
-#    case $option in
-#       h) # display Help
-#          help
-#          exit;;
-#       s) # Run segmentation
-#          pos_file=$OPTARG;;
-#      \?) # Invalid option
-#          echo "Error: Invalid option"
-#          exit;;
-#    esac
-# done
