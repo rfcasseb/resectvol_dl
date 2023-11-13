@@ -13,7 +13,9 @@ ResectVol DL first runs lacuna segmentation for all images, and then runs labeli
 
 Example calls:
 ./resectvol_dl.sh /media/study1/data/ /media/study1/output -s
+
 ./resectvol_dl.sh /media/study1/data/ /media/study1/output -sl
+
 ./resectvol_dl.sh /media/study1/data/ /media/study1/output -slf
 
 Enjoy!
