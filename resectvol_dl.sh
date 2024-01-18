@@ -116,6 +116,7 @@ if [ "$option" == "-s" ]; then
    nnUNet_predict -i "$folder_path" -o "$output_folder_path" -tr nnUNetTrainerV2 -ctr nnUNetTrainerV2CascadeFullRes -m 3d_fullres -p nnUNetPlansv2.1 -t Task510_tp_etp2
    rm $output_folder_path/plans.pkl
    rm $output_folder_path/postprocessing.json
+   python rvdl_replace_header.py "$folder_path" "$output_folder_path" 0 1
 
 
 elif [ "$option" == "-sl" ]; then
@@ -124,6 +125,7 @@ elif [ "$option" == "-sl" ]; then
    nnUNet_predict -i "$folder_path" -o "$output_folder_path" -tr nnUNetTrainerV2 -ctr nnUNetTrainerV2CascadeFullRes -m 3d_fullres -p nnUNetPlansv2.1 -t Task510_tp_etp2
    rm $output_folder_path/plans.pkl
    rm $output_folder_path/postprocessing.json
+   python rvdl_replace_header.py "$folder_path" "$output_folder_path" 0 1  
 
    # 6.2.2. ROI labeling
    # -------------------
@@ -172,6 +174,7 @@ elif [ "$option" == "-slf" ]; then
    nnUNet_predict -i "$folder_path" -o "$output_folder_path" -tr nnUNetTrainerV2 -ctr nnUNetTrainerV2CascadeFullRes -m 3d_fullres -p nnUNetPlansv2.1 -t Task510_tp_etp2
    rm $output_folder_path/plans.pkl
    rm $output_folder_path/postprocessing.json
+   python rvdl_replace_header.py "$folder_path" "$output_folder_path" 0 1  
 
    # 6.3.2. ROI labeling
    # -------------------
@@ -238,3 +241,26 @@ for file in $nifti_files; do
         mv "$file" "${file%_0000.nii.gz}.nii.gz"
     fi
 done
+
+
+
+
+
+
+
+# # -------------------------------------------------------------------------
+# # MAIN
+# # -------------------------------------------------------------------------
+# # Loop through options
+# while getopts ":hn:" option; do
+#    case $option in
+#       h) # display Help
+#          help
+#          exit;;
+#       s) # Run segmentation
+#          pos_file=$OPTARG;;
+#      \?) # Invalid option
+#          echo "Error: Invalid option"
+#          exit;;
+#    esac
+# done
