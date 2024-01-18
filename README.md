@@ -3,7 +3,7 @@ Automatically segment resective brain lacunas in MR images
 
 ResectVol DL relies on the nnU-Net framework. Please install VERSION 1 in your Linux system to run ResectVol DL.
 
-Weights can be downloaded from: https://drive.google.com/file/d/1DhhDo7TrbUtbDsrynj119cl64E0DQTM9/view?usp=drive_link
+Weights can be downloaded from [here](https://drive.google.com/file/d/1DhhDo7TrbUtbDsrynj119cl64E0DQTM9/view?usp=drive_link "weights") 
 
 To install weights use the bash command (available after nnU-Net installation): nnUNet_install_pretrained_model_from_zip 
 
@@ -20,6 +20,6 @@ Example calls:
 
   ./resectvol_dl.sh /media/study1/data/ /media/study1/output -slf
 
-Two sample datasets can be downloaded at https://drive.google.com/file/d/19Xgy-_ByZGXNYyP3QuGHCcIrwbRUBHHA/view?usp=drive_link
+Two sample datasets can be downloaded from [here](https://drive.google.com/file/d/19Xgy-_ByZGXNYyP3QuGHCcIrwbRUBHHA/view?usp=drive_link "image samples").
 
 Enjoy!
