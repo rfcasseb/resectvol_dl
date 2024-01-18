@@ -20,4 +20,6 @@ Example calls:
 
   ./resectvol_dl.sh /media/study1/data/ /media/study1/output -slf
 
+Two sample datasets can be downloaded at https://drive.google.com/file/d/19Xgy-_ByZGXNYyP3QuGHCcIrwbRUBHHA/view?usp=drive_link
+
 Enjoy!
