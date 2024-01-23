@@ -16,30 +16,31 @@ Example calls:
 	
   1) ./resectvol_dl.sh /media/study1/data/ /media/study1/output -s\
         &emsp;Input ex.: .../data/img1.nii.gz\
-	&emsp;Outputs:   .../output/img1.nii.gz (lacuna mask)\
+	&emsp;Outputs:   .../output/img1.nii.gz (lacuna mask)
 
  
   2) ./resectvol_dl.sh /media/study1/data/ /media/study1/output -sl\
 	&emsp;Input ex.: .../data/img1.nii.gz\
 	&emsp;Outputs:   .../output/img1/img1.nii.gz (original image)\
-		   &emsp;.../output/img1/img1_lac.nii.gz (lacuna mask)\
-		   &emsp;.../output/img1/anat_descrip_img_lac.txt (region labeling and volumetric information)\
-     		   &emsp;.../output/img1/Lacuna_labeled.nii.gz (color coded labels)\
-     		   &emsp;.../output/img1/NL_ch2bet_DKT_res_in_native.nii.gz (color coded brain)\
+		   &emsp;   .../output/img1/img1_lac.nii.gz (lacuna mask)\
+		   &emsp;   .../output/img1/anat_descrip_img_lac.txt (region labeling and volumetric information)\
+     		   &emsp;   .../output/img1/Lacuna_labeled.nii.gz (color coded labels)\
+     		   &emsp;   .../output/img1/NL_ch2bet_DKT_res_in_native.nii.gz (color coded brain)
 		 
 
   3) ./resectvol_dl.sh /media/study1/data/ /media/study1/output -slf\
-     	Input ex.: .../data/img1.nii.gz
-	Outputs:   .../output/img1/img1.nii.gz (original image)
-		   .../output/img1/img1_lac.nii.gz (lacuna mask)
-		   .../output/img1/anat_descrip_img_lac.txt (region labeling and volumetric information)
-     		   .../output/img1/Lacuna_labeled.nii.gz (color coded labels)
-     		   .../output/img1/NL_ch2bet_DKT_res_in_native.nii.gz (color coded brain)
+     	&emsp;Input ex.: .../data/img1.nii.gz\
+	&emsp;Outputs:   .../output/img1/img1.nii.gz (original image)\
+		&emsp;   .../output/img1/img1_lac.nii.gz (lacuna mask)\
+		&emsp;   .../output/img1/anat_descrip_img_lac.txt (region labeling and volumetric information)\
+     		&emsp;   .../output/img1/Lacuna_labeled.nii.gz (color coded labels)\
+     		&emsp;   .../output/img1/NL_ch2bet_DKT_res_in_native.nii.gz (color coded brain)
 
 
-NB: Lacuna segmentation is quite robust and rarely presents issues. On the other hand, labeling steps are more sensitive to image quality, which may cause errors in processing.
+NB: Lacuna segmentation is quite robust and rarely presents issues. On the other hand, labeling steps are more sensitive to image quality, which may cause errors in processing. In these cases, only the lacuna mask is generated.
 
 
 Two sample datasets can be downloaded from [here](https://drive.google.com/file/d/19Xgy-_ByZGXNYyP3QuGHCcIrwbRUBHHA/view?usp=drive_link "image samples").
+
 
 Enjoy!
