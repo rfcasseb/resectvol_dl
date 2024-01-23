@@ -1,7 +1,7 @@
 # resectvol_dl
 Automatically segment resective brain lacunas in MR images
 
-ResectVol DL relies on the nnU-Net framework. Please install VERSION 1 in your Linux system to run ResectVol DL.
+ResectVol DL relies on the nnU-Net framework. Please install [nnU-Net VERSION 1](https://github.com/MIC-DKFZ/nnUNet/tree/nnunetv1) in your Linux system to run ResectVol DL. (To run region labeling, please also install [FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation) and [ANTs](http://stnava.github.io/ANTs/))
 
 Weights can be downloaded from [here](https://drive.google.com/file/d/1DhhDo7TrbUtbDsrynj119cl64E0DQTM9/view?usp=drive_link "weights") 
 
@@ -14,11 +14,31 @@ ResectVol DL first runs lacuna segmentation for all images, and then runs labeli
 Example calls:
 
 	
-  ./resectvol_dl.sh /media/study1/data/ /media/study1/output -s
+  1) ./resectvol_dl.sh /media/study1/data/ /media/study1/output -s
+        Input ex.: .../data/img1.nii.gz
+	Outputs:   .../output/img1.nii.gz (lacuna mask)
 
-  ./resectvol_dl.sh /media/study1/data/ /media/study1/output -sl
+ 
+  2) ./resectvol_dl.sh /media/study1/data/ /media/study1/output -sl
+	Input ex.: .../data/img1.nii.gz
+	Outputs:   .../output/img1/img1.nii.gz (original image)
+		   .../output/img1/img1_lac.nii.gz (lacuna mask)
+		   .../output/img1/anat_descrip_img_lac.txt (region labeling and volumetric information)
+     		   .../output/img1/Lacuna_labeled.nii.gz (color coded labels)
+     		   .../output/img1/NL_ch2bet_DKT_res_in_native.nii.gz (color coded brain)
+		 
 
-  ./resectvol_dl.sh /media/study1/data/ /media/study1/output -slf
+  3) ./resectvol_dl.sh /media/study1/data/ /media/study1/output -slf
+     	Input ex.: .../data/img1.nii.gz
+	Outputs:   .../output/img1/img1.nii.gz (original image)
+		   .../output/img1/img1_lac.nii.gz (lacuna mask)
+		   .../output/img1/anat_descrip_img_lac.txt (region labeling and volumetric information)
+     		   .../output/img1/Lacuna_labeled.nii.gz (color coded labels)
+     		   .../output/img1/NL_ch2bet_DKT_res_in_native.nii.gz (color coded brain)
+
+
+NB: Lacuna segmentation is quite robust and rarely presents issues. On the other hand, labeling steps are more sensitive to image quality, which may cause errors in processing.
+
 
 Two sample datasets can be downloaded from [here](https://drive.google.com/file/d/19Xgy-_ByZGXNYyP3QuGHCcIrwbRUBHHA/view?usp=drive_link "image samples").
 
