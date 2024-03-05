@@ -4,9 +4,9 @@ roi_labeling() {
 	# Main script to perform labeling of lacuna regions
 	# -------------------------------------------------------------------------
 	# Usage examples:
-        # Slow good run - ~15 min
+    # Slow good run - ~15 min (depends on system)
 	# time bash rvdl_labeling.sh roi_labeling /path/to/Pos.nii.gz /path/to/Lacuna.nii.gz /path/to/rvdl_labeling.sh slow_good
-	# Quick poor run - ~6 min
+	# Quick poor run - ~6 min (depends on system)
 	# time bash rvdl_labeling.sh roi_labeling /path/to/Pos.nii.gz /path/to/Lacuna.nii.gz /path/to/rvdl_labeling.sh quick_dirty
 	# -------------------------------------------------------------------------
 	# INPUTS:
@@ -15,7 +15,7 @@ roi_labeling() {
 	#    format
 	# 3) /path/to/rvdl_labeling.sh - full path to rvdl_labeling.sh (there 
 	#    must be a folder named "labeling_template" at the same level
-        #    of the rvdl_labeling.sh file, containing the DKT template)
+    #    of the rvdl_labeling.sh file, containing the DKT template)
 	# 4) running mode - options: "quick_dirty" or "slow_good"
 
 	# OUTPUTS:
@@ -68,12 +68,12 @@ roi_labeling() {
 		num_processors=$(nproc --all)
 		CoresPerCase=$((num_processors - 2))
 	fi
-	
+	del_extra=yes
 
 	# ------------------------------------------------------------------
 	# 0. LOAD INPUTS
 	# ------------------------------------------------------------------
-        code_dir=$(dirname "$3")
+    code_dir=$(dirname "$3")
 	brn_path=$(dirname "$1")
 	brn_name=$(basename "$1")
 	brn_name_core=$(basename "$brn_name" .nii.gz)
@@ -96,15 +96,16 @@ roi_labeling() {
 	# Choose atlas ($code_dir/labeling_template/)
 	atlas_brain=ch2bet
 	atlas_labels=ch2bet_DKT_res
+	
 
 	
 	# ------------------------------------------------------------------	
 	# 1. BRAIN EXTRACTION
 	# ------------------------------------------------------------------
-    	# 1.1. Apply lacuna mask to post file
+    # 1.1. Apply lacuna mask to post file
 	# (SPM12 NewSegment ignores 0 voxels)
 	# ~ 5 s
-    	fslmaths $lac_path/$lac_name_core -mul -1 -add 1 -mul $brn_path/$brn_name_core $brn_path/"$brn_name_core"_masked -odt short
+    fslmaths $lac_path/$lac_name_core -mul -1 -add 1 -mul $brn_path/$brn_name_core $brn_path/"$brn_name_core"_masked
 	gunzip $brn_path/"$brn_name_core"_masked.nii.gz
 	
 	# 1.2. Run SPM12 NewSegment
@@ -188,11 +189,15 @@ roi_labeling() {
 	antsApplyTransforms -d 3 -e 0 \
 		-i $code_dir/labeling_template/"$atlas_labels".nii.gz \
 		-o $brn_path/NL_"$atlas_labels"_in_native.nii.gz \
-		-n GenericLabel \
+		-n NearestNeighbor \
 		-r $brn_path/"$brn_name_core"_full.nii.gz \
 		-t $brn_path/L_"$atlas_brain"_in_native_0GenericAffine.mat \
 		-t $brn_path/NL_"$atlas_brain"_1Warp.nii.gz \
 		-t $brn_path/NL_"$atlas_brain"_0GenericAffine.mat
+
+	# 3.5. Correct header
+	fslcpgeom $brn_path/"$brn_name_core"_full.nii.gz $brn_path/NL_"$atlas_labels"_in_native.nii.gz
+	# python rvdl_replace_header.py $brn_path/"$brn_name_core"_full.nii.gz $brn_path/NL_"$atlas_labels"_in_native.nii.gz 1
 
 	# Remove residuals
 	rm $brn_path/"$brn_name_core"_full.nii.gz
@@ -200,14 +205,20 @@ roi_labeling() {
 	rm $brn_path/NL_"$atlas_brain"_1Warp.nii.gz
 	rm $brn_path/L_"$atlas_brain"_in_native_0GenericAffine.mat
 
+	
 	# ------------------------------------------------------------------	
 	# 4. Anatomical labeling
 	# ------------------------------------------------------------------
 	# 4.1. Create image with lacuna labels (binarize)
-	fslmaths $lac_path/$lac_name_core -bin -mul $brn_path/NL_"$atlas_labels"_in_native $brn_path/Lacuna_labeled
+	fslmaths $lac_path/$lac_name_core -bin -mul $brn_path/NL_"$atlas_labels"_in_native $brn_path/"$lac_name_core"_labeled
 
 	# 4.2. Create table and ROIs
-	python $code_dir/rvdl_labeling_descrip.py $lac_path/"$lac_name_core".nii.gz $brn_path/Lacuna_labeled.nii.gz $brn_path/NL_"$atlas_labels"_in_native.nii.gz 0.5 1
+	python $code_dir/rvdl_labeling_descrip.py $lac_path/"$lac_name_core".nii.gz $brn_path/"$lac_name_core"_labeled.nii.gz $brn_path/NL_"$atlas_labels"_in_native.nii.gz 0.5 1
+
+	# 4.3. Delete extras
+	if [[ $del_extra == "yes" ]]; then
+		rm $brn_path/NL_"$atlas_labels"_in_native.nii.gz
+	fi
 	
 }
 

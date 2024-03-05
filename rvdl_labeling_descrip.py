@@ -70,7 +70,7 @@ import sys
 # ------------------------------------------------------------------
 # 0. LOAD INPUTS
 # ------------------------------------------------------------------
-clear_small_resecs = True # do not include resections < 5% in table
+clear_small_resecs = False # do not include resections < 5% in table
 rank_by_size = True
 lac_img_path = sys.argv[1]
 lac_lb_path = sys.argv[2]
@@ -147,6 +147,11 @@ with open(out_file, 'wt') as txt_f:
         txt_f.write(f'Cluster {cc_ind[cc]}:\n')
         txt_f.write(f'Volume: {cc_vxls[cc]} voxels ({cc_vxls[cc]*vol_factor:.2f} mm3)\n')
         
+        # Do not describe clusters smaller than 3 voxels
+        if cc_vxls[cc] < 4:
+            txt_f.write(f'Cluster is too small to be described (less than 4 voxels).\n\n\n')
+            continue
+
         # Header
         txt_f.write(f'ROI Index\tROI Name*\tResected vol (voxel)\tResected vol (mm3)\tResected %\n')
 
@@ -163,7 +168,7 @@ with open(out_file, 'wt') as txt_f:
 
             # To avoid problems of empty tables
             if lb_indx[rr] == 999:
-                resect_perc = 100
+                resect_perc = 1
             else:
                 resect_perc = lb_vxls[rr]/atlas_voxls[ atlas_indx == lb_indx[rr]]
             
@@ -230,11 +235,12 @@ with open(out_file, 'wt') as txt_f:
     
     # Foot notes
     if clear_small_resecs == True:
-        txt_f.write('OBS: Resections smaller than 5% are ommited.\n')
-    txt_f.write(f'*Regions are labeled according to the DKT atlas (doi:10.3389/fnins.2012.00171)\n')
-    txt_f.write(f'**Subarachnoid space, sulcus, and other unlabeled regions.\n')
+        txt_f.write('OBS: Resections smaller than 5% of the ROI total volume are ommited.\n')
+    txt_f.write(f'To see the complete list of ROIs, check the file .../resectvol_dl/labeling_template/ch2bet_DKT_info.nii.gz\n')
     txt_f.write(f'ROI Index: number codes from the reference atlas assigned to each ROI.\n')
     txt_f.write(f'ROI Name: obtained from the reference atlas.\n')
     txt_f.write(f'Resected vol (voxel): ROI resected volume (in voxels, NOT in mm3).\n')
     txt_f.write(f'Resected vol (mm3): ROI resected volume (in mm3).\n')
     txt_f.write(f'Resected %: ROI resected percentage.\n')
+    txt_f.write(f'*Regions are labeled according to the DKT atlas (doi:10.3389/fnins.2012.00171). The ''Undetermined'' ROI corresponds to subarachnoid space, sulcus, and other unlabeled regions.\n')
+    txt_f.write(f'PS: Clusters with less than 3 voxels are not described\n')

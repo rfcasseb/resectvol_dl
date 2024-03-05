@@ -85,7 +85,7 @@ if [ ! -d "$output_folder_path" ]; then
 fi
 
 # Check if the folder contains any nifti files in .nii.gz format
-nifti_files=$(find "$folder_path" -type f -name "*.nii.gz")
+nifti_files=$(find "$folder_path" -maxdepth 1 -type f -name "*.nii.gz")
 if [ -z "$nifti_files" ]; then
    echo "Error: No nifti files in .nii.gz format found in the folder"
    help
@@ -104,117 +104,178 @@ for file in $nifti_files; do
 done
 
 # Update names
-nifti_files=$(find "$folder_path" -type f -name "*.nii.gz")
+nifti_files=$(find "$folder_path" -maxdepth 1 -type f -name "*.nii.gz")
 
 
 
 # 6. Run options
 # -------------------------------------------------------------------------
 if [ "$option" == "-s" ]; then
-   # 6.1. Run lacuna segmentation only
+   # 6.1.1. Run lacuna segmentation only
    # ---------------------------------
    nnUNet_predict -i "$folder_path" -o "$output_folder_path" -tr nnUNetTrainerV2 -ctr nnUNetTrainerV2CascadeFullRes -m 3d_fullres -p nnUNetPlansv2.1 -t Task510_tp_etp2
    rm $output_folder_path/plans.pkl
    rm $output_folder_path/postprocessing.json
-   python rvdl_replace_header.py "$folder_path" "$output_folder_path" 0 1
+   
+   # 6.1.2. Add lacuna suffix
+   # ------------------------
+   out_lac_files=$(find "$output_folder_path" -maxdepth 1 -type f -name "*.nii.gz")
+   for file in $out_lac_files; do
+      mv "$file" "${file%.nii.gz}_lacuna.nii.gz"
+   done
+
+   # 6.1.3. Replace header
+   # ---------------------
+   python rvdl_replace_header.py "$folder_path" "$output_folder_path" 1
 
 
 elif [ "$option" == "-sl" ]; then
-   # 6.2.1. Run lacuna segmentation
-   # ------------------------------
+   # 6.2.1. Run lacuna segmentation only
+   # ---------------------------------
    nnUNet_predict -i "$folder_path" -o "$output_folder_path" -tr nnUNetTrainerV2 -ctr nnUNetTrainerV2CascadeFullRes -m 3d_fullres -p nnUNetPlansv2.1 -t Task510_tp_etp2
    rm $output_folder_path/plans.pkl
    rm $output_folder_path/postprocessing.json
-   python rvdl_replace_header.py "$folder_path" "$output_folder_path" 0 1  
+   
+   # 6.2.2. Add lacuna suffix
+   # ------------------------
+   out_lac_files=$(find "$output_folder_path" -maxdepth 1 -type f -name "*.nii.gz")
+   for file in $out_lac_files; do
+      mv "$file" "${file%.nii.gz}_lacuna.nii.gz"
+   done
 
-   # 6.2.2. ROI labeling
+   # 6.2.3. Replace header
+   # ---------------------
+   python rvdl_replace_header.py "$folder_path" "$output_folder_path" 1
+
+   # 6.2.4. ROI labeling
    # -------------------
    # Necessary files
    lac_files=($output_folder_path/*.nii.gz)
    postop_files=($folder_path/*.nii.gz)
 
-   # Create folders with the files
+   # Run all lacuna files
    for i in "${!lac_files[@]}"; do
+
+      # Create folders with the files
       lac_file_name=$(basename -- "${lac_files[$i]}")
-      dir_name="${lac_file_name%.nii.gz}"
-      mkdir $output_folder_path/$dir_name
-      
+      dir_name="${lac_file_name%_lacuna.nii.gz}"
+      mkdir $output_folder_path/"${dir_name}"
+
       # Move lacuna file to sbj output folder
-      mv "${lac_files[$i]}" $output_folder_path/$dir_name/"$dir_name"_lac.nii.gz
-      lac_file=$output_folder_path/$dir_name/"$dir_name"_lac.nii.gz
+      mv "${lac_files[$i]}" $output_folder_path/$dir_name/
+      lac_file=$output_folder_path/$dir_name/$lac_file_name
       
       # Copy postop file to sbj output folder
-      for i in "${!postop_files[@]}"; do
+      for ii in "${!postop_files[@]}"; do
 
          # Remove the _0000 suffix from postop file to find right folder
-         postop_file_name=$(basename -- "${postop_files[$i]}")
+         postop_file_name=$(basename -- "${postop_files[$ii]}")
          if [[ "$postop_file_name" == *_0000.nii.gz ]]; then
             postop_file_name="${postop_file_name%_0000.nii.gz}"
+            
+            # Compare file name with folder name (must match)
+            if [[ $postop_file_name == $dir_name ]]; then
+               cp ${postop_files[$ii]} $output_folder_path/$dir_name/"$postop_file_name".nii.gz
+               postop_file=$output_folder_path/$dir_name/"$postop_file_name".nii.gz
+            fi
+
          else
             postop_file_name="${postop_file_name%.nii.gz}"
-         fi
 
-         # Compare file name with folder name (should match)
-         if [[ $postop_file_name == $dir_name ]]; then
-            cp ${postop_files[$i]} $output_folder_path/$dir_name/"$postop_file_name".nii.gz
-            postop_file=$output_folder_path/$dir_name/"$postop_file_name".nii.gz
+            # Compare file name with folder name (must match)
+            if [[ $postop_file_name == $dir_name ]]; then
+               cp ${postop_files[$ii]} $output_folder_path/$dir_name/"$postop_file_name".nii.gz
+               postop_file=$output_folder_path/$dir_name/"$postop_file_name".nii.gz
+            fi
+
          fi
+         
       done
 
       # Run labeling
       bash rvdl_labeling.sh roi_labeling $postop_file $lac_file $PWD/rvdl_labeling.sh slow_good
+
+      # Delete postop
+      rm $postop_file
 
    done   
 
    
 
 elif [ "$option" == "-slf" ]; then
-   # 6.3.1. Run lacuna segmentation
-   # ------------------------------
+   # 6.3.1. Run lacuna segmentation only
+   # -----------------------------------
    nnUNet_predict -i "$folder_path" -o "$output_folder_path" -tr nnUNetTrainerV2 -ctr nnUNetTrainerV2CascadeFullRes -m 3d_fullres -p nnUNetPlansv2.1 -t Task510_tp_etp2
    rm $output_folder_path/plans.pkl
    rm $output_folder_path/postprocessing.json
-   python rvdl_replace_header.py "$folder_path" "$output_folder_path" 0 1  
+   
+   # 6.3.2. Add lacuna suffix
+   # ------------------------
+   out_lac_files=$(find "$output_folder_path" -maxdepth 1 -type f -name "*.nii.gz")
+   for file in $out_lac_files; do
+      mv "$file" "${file%.nii.gz}_lacuna.nii.gz"
+   done
 
-   # 6.3.2. ROI labeling
+   # 6.3.3. Replace header
+   # ---------------------
+   python rvdl_replace_header.py "$folder_path" "$output_folder_path" 1
+
+   # 6.3.4. ROI labeling
    # -------------------
    # Necessary files
    lac_files=($output_folder_path/*.nii.gz)
    postop_files=($folder_path/*.nii.gz)
 
-   # Create folders with the files
+   # Run all lacuna files
    for i in "${!lac_files[@]}"; do
+      
+      # Create folders with the files
       lac_file_name=$(basename -- "${lac_files[$i]}")
-      dir_name="${lac_file_name%.nii.gz}"
-      mkdir $output_folder_path/$dir_name
+      dir_name="${lac_file_name%_lacuna.nii.gz}"
+      mkdir $output_folder_path/"${dir_name}"
       
       # Move lacuna file to sbj output folder
-      mv "${lac_files[$i]}" $output_folder_path/$dir_name/"$dir_name"_lac.nii.gz
-      lac_file=$output_folder_path/$dir_name/"$dir_name"_lac.nii.gz
+      mv "${lac_files[$i]}" $output_folder_path/$dir_name/
+      lac_file=$output_folder_path/$dir_name/$lac_file_name
       
       # Copy postop file to sbj output folder
-      for i in "${!postop_files[@]}"; do
+      for ii in "${!postop_files[@]}"; do
 
          # Remove the _0000 suffix from postop file to find right folder
-         postop_file_name=$(basename -- "${postop_files[$i]}")
+         postop_file_name=$(basename -- "${postop_files[$ii]}")
          if [[ "$postop_file_name" == *_0000.nii.gz ]]; then
             postop_file_name="${postop_file_name%_0000.nii.gz}"
+            
+            # Compare file name with folder name (must match)
+            if [[ $postop_file_name == $dir_name ]]; then
+               cp ${postop_files[$ii]} $output_folder_path/$dir_name/"$postop_file_name".nii.gz
+               postop_file=$output_folder_path/$dir_name/"$postop_file_name".nii.gz
+            fi
+
          else
             postop_file_name="${postop_file_name%.nii.gz}"
-         fi
 
-         # Compare file name with folder name (should match)
-         if [[ $postop_file_name == $dir_name ]]; then
-            cp ${postop_files[$i]} $output_folder_path/$dir_name/"$postop_file_name".nii.gz
-            postop_file=$output_folder_path/$dir_name/"$postop_file_name".nii.gz
+            # Compare file name with folder name (must match)
+            if [[ $postop_file_name == $dir_name ]]; then
+               cp ${postop_files[$ii]} $output_folder_path/$dir_name/"$postop_file_name".nii.gz
+               postop_file=$output_folder_path/$dir_name/"$postop_file_name".nii.gz
+            fi
+
          fi
+         
       done
 
       # Run labeling
       bash rvdl_labeling.sh roi_labeling $postop_file $lac_file $PWD/rvdl_labeling.sh quick_dirty
 
+      # Delete postop
+      rm $postop_file
+
    done
 
+   echo ===============================
+   echo -e "\t All done!"
+   echo ===============================
 
 
 else
@@ -264,3 +325,21 @@ done
 #          exit;;
 #    esac
 # done
+
+
+      # for i in "${!postop_files[@]}"; do
+
+      #    # Remove the _0000 suffix from postop file to find right folder
+      #    postop_file_name=$(basename -- "${postop_files[$i]}")
+      #    if [[ "$postop_file_name" == *_0000.nii.gz ]]; then
+      #       postop_file_name="${postop_file_name%_0000.nii.gz}"
+      #    else
+      #       postop_file_name="${postop_file_name%.nii.gz}"
+      #    fi
+
+      #    # Compare file name with folder name (should match)
+      #    if [[ $postop_file_name == $dir_name ]]; then
+      #       cp ${postop_files[$i]} $output_folder_path/$dir_name/"$postop_file_name".nii.gz
+      #       postop_file=$output_folder_path/$dir_name/"$postop_file_name".nii.gz
+      #    fi
+      # done
