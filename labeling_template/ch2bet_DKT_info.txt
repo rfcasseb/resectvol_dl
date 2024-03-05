@@ -11,7 +11,7 @@
 253	"CC_Central"
 254	"CC_Mid_Anterior"
 255	"CC_Anterior"
-999	"Undetermined**"
+999	"Undetermined"
 1002	"ctx-lh-caudalanteriorcingulate"
 1003	"ctx-lh-caudalmiddlefrontal"
 1005	"ctx-lh-cuneus"
