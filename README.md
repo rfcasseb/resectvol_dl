@@ -1,11 +1,11 @@
 # resectvol_dl
-Automatically segment resective brain lacunas in MR images
+Automatically segment resective brain lacunas in MR images.
 
-ResectVol DL relies on the nnU-Net framework. Please install [nnU-Net VERSION 1](https://github.com/MIC-DKFZ/nnUNet/tree/nnunetv1) on your Linux system to run ResectVol DL. (To run region labeling, please also install [FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation) and [ANTs](http://stnava.github.io/ANTs/))
+ResectVol DL relies on the nnU-Net framework. Please install [nnU-Net VERSION 1](https://github.com/MIC-DKFZ/nnUNet/tree/nnunetv1) on your Linux system to run ResectVol DL. (To run region labeling, please also install [FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation) and [ANTs](http://stnava.github.io/ANTs/)).
 
 Weights can be downloaded [here](https://drive.google.com/file/d/1DhhDo7TrbUtbDsrynj119cl64E0DQTM9/view?usp=drive_link "weights").
 
-To install weights use the bash command (available after nnU-Net installation): nnUNet_install_pretrained_model_from_zip 
+To install weights use the bash command (available after nnU-Net installation): nnUNet_install_pretrained_model_from_zip.
 
 To run ResecVol DL, gather all your compressed nifti images (.nii.gz) in a directory (eg: /media/study1/data/) and choose if you want to run only lacuna segmentation (-s), lacuna segmentation + region labeling (-sl), or lacuna segmentation + fast region labeling (less accurate) (-slf).
 
