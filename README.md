@@ -6,7 +6,7 @@ Automatic segmentation and volumetric analysis of brain lacunae from T1 MRI scan
 ---
 
 ## Features
-<img src="lacuna_seg_ex.png" width="400">
+<img src="./lacuna_seg_ex.png" width="600">
 
 - Automatic segmentation of brain lacunas using nnU-Net v2
 - Region labeling (requires SPM12, ANTs, and FSL)
