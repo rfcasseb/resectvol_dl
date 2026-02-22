@@ -1,0 +1,76 @@
+0	Unknown				Unknown
+2	Left-Cerebral-White-Matter	White Matter of the Left Cerebral Hemisphere
+17	Left-Hippocampus		Left Hippocampus
+18	Left-Amygdala			Left Amygdala
+41	Right-Cerebral-White-Matter	White Matter of the Right Cerebral Hemisphere
+53	Right-Hippocampus		Right Hippocampus
+54	Right-Amygdala			Right Amygdala
+77	WM-hypointensities		White Matter Hypointensities
+251	CC_Posterior			Corpus Callosum - Posterior Segment
+252	CC_Mid_Posterior		Corpus Callosum - Mid-Posterior Segment
+253	CC_Central			Corpus Callosum - Central Segment
+254	CC_Mid_Anterior			Corpus Callosum - Mid-Anterior Segment
+255	CC_Anterior			Corpus Callosum - Anterior Segment
+999	Undetermined			Undetermined
+1002	ctx-lh-caudalanteriorcingulate	Left Anterior Cingulate Gyrus - Caudal Part (Gray Matter)
+1003	ctx-lh-caudalmiddlefrontal	Left Middle Frontal Gyrus - Caudal Part (Gray Matter)
+1005	ctx-lh-cuneus			Left Cuneus (Gray Matter)
+1006	ctx-lh-entorhinal		Left Entorhinal Cortex (Gray Matter)
+1007	ctx-lh-fusiform			Left Fusiform Gyrus (Gray Matter)
+1008	ctx-lh-inferiorparietal		Left Inferior Parietal Lobule (Gray Matter)
+1009	ctx-lh-inferiortemporal		Left Inferior Temporal Gyrus (Gray Matter)
+1010	ctx-lh-isthmuscingulate		Isthmus of Left Cingulate Gyrus (Gray Matter)
+1011	ctx-lh-lateraloccipital		Left Lateral Occipital Gyri (Gray Matter)
+1012	ctx-lh-lateralorbitofrontal	Left Lateral Orbital Gyrus (Gray Matter)
+1013	ctx-lh-lingual			Left Lingual Gyrus (Gray Matter)
+1014	ctx-lh-medialorbitofrontal	Left Medial Orbital Gyrus (Gray Matter)
+1015	ctx-lh-middletemporal		Left Middle Temporal Gyrus (Gray Matter)
+1016	ctx-lh-parahippocampal		Left Parahippocampal Gyrus (Gray Matter)
+1017	ctx-lh-paracentral		Left Paracentral Lobule (Gray Matter)
+1018	ctx-lh-parsopercularis		Left Pars Opercularis (Gray Matter)
+1019	ctx-lh-parsorbitalis		Left Pars Orbitalis (Gray Matter)
+1020	ctx-lh-parstriangularis		Left Pars Triangularis (Gray Matter)
+1021	ctx-lh-pericalcarine		Left Pericalcarine Cortex (Gray Matter)
+1022	ctx-lh-postcentral		Left Postcentral Gyrus (Gray Matter)
+1023	ctx-lh-posteriorcingulate	Left Posterior Cingulate Gyrus (Gray Matter)
+1024	ctx-lh-precentral		Left Precentral Gyrus (Gray Matter)
+1025	ctx-lh-precuneus		Left Precuneus (Gray Matter)
+1026	ctx-lh-rostralanteriorcingulate	Left Anterior Cingulate Gyrus - Rostral Part (Gray Matter)
+1027	ctx-lh-rostralmiddlefrontal	Left Middle Frontal Gyrus - Rostral Part (Gray Matter)
+1028	ctx-lh-superiorfrontal		Left Superior Frontal Gyrus (Gray Matter)
+1029	ctx-lh-superiorparietal		Left Superior Parietal Lobule (Gray Matter)
+1030	ctx-lh-superiortemporal		Left Superior Temporal Gyrus (Gray Matter)
+1031	ctx-lh-supramarginal		Left Supramarginal Gyrus (Gray Matter)
+1034	ctx-lh-transversetemporal	Left Transverse Temporal Gyrus (Heschl's Gyrus) (Gray Matter)
+1035	ctx-lh-insula			Left Insula (Gray Matter)
+2002	ctx-rh-caudalanteriorcingulate	Right Anterior Cingulate Gyrus - Caudal Part (Gray Matter)
+2003	ctx-rh-caudalmiddlefrontal	Right Middle Frontal Gyrus - Caudal Part (Gray Matter)
+2005	ctx-rh-cuneus			Right Cuneus (Gray Matter)
+2006	ctx-rh-entorhinal		Right Entorhinal Cortex (Gray Matter)
+2007	ctx-rh-fusiform			Right Fusiform Gyrus (Gray Matter)
+2008	ctx-rh-inferiorparietal		Right Inferior Parietal Lobule (Gray Matter)
+2009	ctx-rh-inferiortemporal		Right Inferior Temporal Gyrus (Gray Matter)
+2010	ctx-rh-isthmuscingulate		Isthmus of Right Cingulate Gyrus (Gray Matter)
+2011	ctx-rh-lateraloccipital		Right Lateral Occipital Gyri (Gray Matter)
+2012	ctx-rh-lateralorbitofrontal	Right Lateral Orbital Gyrus (Gray Matter)
+2013	ctx-rh-lingual			Right Lingual Gyrus (Gray Matter)
+2014	ctx-rh-medialorbitofrontal	Right Medial Orbital Gyrus (Gray Matter)
+2015	ctx-rh-middletemporal		Right Middle Temporal Gyrus (Gray Matter)
+2016	ctx-rh-parahippocampal		Right Parahippocampal Gyrus (Gray Matter)
+2017	ctx-rh-paracentral		Right Paracentral Lobule (Gray Matter)
+2018	ctx-rh-parsopercularis		Right Pars Opercularis (Gray Matter)
+2019	ctx-rh-parsorbitalis		Right Pars Orbitalis (Gray Matter)
+2020	ctx-rh-parstriangularis		Right Pars Triangularis (Gray Matter)
+2021	ctx-rh-pericalcarine		Right Pericalcarine Cortex (Gray Matter)
+2022	ctx-rh-postcentral		Right Postcentral Gyrus (Gray Matter)
+2023	ctx-rh-posteriorcingulate	Right Posterior Cingulate Gyrus (Gray Matter)
+2024	ctx-rh-precentral		Right Precentral Gyrus (Gray Matter)
+2025	ctx-rh-precuneus		Right Precuneus (Gray Matter)
+2026	ctx-rh-rostralanteriorcingulate	Right Anterior Cingulate Gyrus - Rostral Part (Gray Matter)
+2027	ctx-rh-rostralmiddlefrontal	Right Middle Frontal Gyrus - Rostral Part (Gray Matter)
+2028	ctx-rh-superiorfrontal		Right Superior Frontal Gyrus (Gray Matter)
+2029	ctx-rh-superiorparietal		Right Superior Parietal Lobule (Gray Matter)
+2030	ctx-rh-superiortemporal		Right Superior Temporal Gyrus (Gray Matter)
+2031	ctx-rh-supramarginal		Right Supramarginal Gyrus (Gray Matter)
+2034	ctx-rh-transversetemporal	Right Transverse Temporal Gyrus (Heschl's Gyrus) (Gray Matter)
+2035	ctx-rh-insula			Right Insula (Gray Matter)
